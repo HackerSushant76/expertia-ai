@@ -3,6 +3,7 @@ import axios from "axios";
 import { AppContext } from "../Components/AppContext";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { Loader } from "../Components/loader";
 
 function Signup() {
   const [formState, setFormState] = useState({
@@ -10,6 +11,7 @@ function Signup() {
     password: "",
     name: "",
   });
+  const [isLoading,setIsLoading] = useState(false)
   const { auth, handleLogin } = useContext(AppContext);
   const router = useRouter();
   const handleChange = (e) => {
@@ -21,12 +23,13 @@ function Signup() {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
+    setIsLoading(true)
     axios
-      .post("http://localhost:8080/signup", formState)
+      .post("https://sush-todo-api.onrender.com/signup", formState)
       .then((res) => {
         console.log(res.data);
         handleLogin(res.data);
-
+        setIsLoading(false)
         if (res.data === "User already exists") {
           alert(res.data);
           router.push("/login");
@@ -37,20 +40,25 @@ function Signup() {
       })
       .catch((err) => {
         console.log(err);
+        setIsLoading(false)
       });
   };
   return (
     <div id="signup">
-        <div>
-            <img src="/dummy-image.jpg" alt="" />
-        </div>
+      <div>
+        <img src="/dummy-image.jpg" alt="" />
+      </div>
       <form onSubmit={handleSubmit}>
-        <p className="text-lg">Welcome!</p>
-        <p className="text-3xl font-bold">Sign up to</p>
-        <p className="text-lg">Expertia AI</p>
         <div>
-        <label htmlFor="">Full Name</label>
-        <br />
+          <p className="text-lg">Welcome!</p>
+          <br />
+          <p className="text-3xl font-bold">Sign up to</p>
+          <br />
+          <p className="text-lg">Expertia AI</p>
+        </div>
+        <div>
+          <label htmlFor="">Full Name</label>
+          <br />
           <input
             type="text"
             placeholder="Full name"
@@ -60,8 +68,8 @@ function Signup() {
           />
         </div>
         <div>
-        <label htmlFor="">Email</label>
-        <br />
+          <label htmlFor="">Email</label>
+          <br />
           <input
             type="email"
             placeholder="email"
@@ -71,8 +79,8 @@ function Signup() {
           />
         </div>
         <div>
-        <label htmlFor="">Password</label>
-        <br />
+          <label htmlFor="">Password</label>
+          <br />
           <input
             type="password"
             name="password"
@@ -82,9 +90,18 @@ function Signup() {
           />
         </div>
         <div>
-          <input type="submit" value="Register" className="bg-black text-white w-80 p-2"/>
+          <input
+            type="submit"
+            value={isLoading? "loading...": "Register"}
+            className="bg-black text-white w-80 p-2"
+          />
         </div>
-        <div className="w-fit m-auto">Already have an account ? <b><Link href="/login">Login</Link></b></div>
+        <div className="w-fit m-auto">
+          Already have an account ?{" "}
+          <b>
+            <Link href="/login">Login</Link>
+          </b>
+        </div>
       </form>
     </div>
   );

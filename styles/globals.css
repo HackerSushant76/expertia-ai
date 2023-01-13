@@ -27,3 +27,31 @@
   border: 1px solid grey;
   border-radius: 5px;
 }
+
+@media (max-width: 500px) {
+  #signup>div{
+    display: none
+  }
+  #signup>form{
+    /* min-height: 100vh; */
+    border: 0px;
+    box-shadow:none;
+    gap: 50px;
+  }
+  #signup{
+    width: 100%;
+    justify-content: center;
+    align-items: bottom;
+    padding: 40px;
+  }
+  #signup input{
+    width: 360px;
+    font-size: 25px;
+    padding: 12px 8px;
+    border: 1px solid grey;
+    border-radius: 5px;
+  }
+  #signup label{
+    font-size: 25px;
+  }
+}

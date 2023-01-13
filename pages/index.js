@@ -29,7 +29,7 @@ function Home(props) {
       },
     };
     axios
-      .post("http://localhost:8080/todos/create", todo, config)
+      .post("https://sush-todo-api.onrender.com/todos/create", todo, config)
       .then((res) => {
         console.log(res.data);
         setTodos([...todos, todo]);
@@ -109,7 +109,7 @@ export const getServerSideProps = async ({ req, res }) => {
     },
   };
   const { data } = await axios.get(
-    `http://localhost:8080/todos?date=${date}`,
+    `https://sush-todo-api.onrender.com/todos?date=${date}`,
     config
   );
   // console.log("data" ,data)
