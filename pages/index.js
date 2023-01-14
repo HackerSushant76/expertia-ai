@@ -12,7 +12,7 @@ function Home(props) {
   // console.log(auth);
   const router = useRouter();
   const addTodo = () => {
-    if (todos.length === 5) {
+    if (todos.length >= 5) {
       alert("Daily limit exceeded");
       return;
     }
@@ -82,8 +82,8 @@ function Home(props) {
             onChange={(e) => setTask(e.target.value)}
             className="border-black border-solid border-2 w-80 p-2"
           />
-          {todos.length===5 && <p className="text-red-500">Daily limit exceeded!!</p>}
-          <button onClick={addTodo} disabled = {todos.length===5} className="bg-black text-white w-80 p-2">
+          {todos.length>=5 && <p className="text-red-500">Daily limit exceeded!!</p>}
+          <button onClick={addTodo} disabled = {todos.length>=5} className="bg-black text-white w-80 p-2">
             Add
           </button>
           <button
