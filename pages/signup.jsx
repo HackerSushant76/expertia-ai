@@ -3,7 +3,6 @@ import axios from "axios";
 import { AppContext } from "../Components/AppContext";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { Loader } from "../Components/loader";
 
 function Signup() {
   const [formState, setFormState] = useState({

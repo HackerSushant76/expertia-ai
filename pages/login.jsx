@@ -3,7 +3,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useContext, useState } from "react";
 import { AppContext } from "../Components/AppContext";
-import { Loader } from "../Components/loader";
 
 function Signin() {
   const [formState, setFormState] = useState({
