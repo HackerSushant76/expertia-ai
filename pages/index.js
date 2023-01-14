@@ -9,7 +9,7 @@ function Home(props) {
   const [todos, setTodos] = useState(props.tasks);
   const [task, setTask] = useState("");
   const { auth, handleLogout } = useContext(AppContext);
-  console.log(auth);
+  // console.log(auth);
   const router = useRouter();
   const addTodo = () => {
     if (todos.length === 5) {
@@ -39,9 +39,9 @@ function Home(props) {
         console.log(err);
       });
   };
-  useEffect(() => {
-    !auth.isAuth ? router.push("/signup") : null;
-  }, [auth.isAuth]);
+  // useEffect(() => {
+  //   !auth.isAuth ? router.push("/signup") : null;
+  // }, [auth.isAuth]);
   return (
     <div>
       <br />
@@ -49,7 +49,7 @@ function Home(props) {
         <div>
           <p className="text-2xl">Hello</p>
           <br />
-          <b className="text-4xl bold">{auth.name || "User"} </b>
+          <b className="text-4xl bold">{props.name || "User"} </b>
           <br />
 
           <br />
@@ -85,7 +85,10 @@ function Home(props) {
             Add
           </button>
           <button
-            onClick={() => handleLogout()}
+            onClick={() => {
+              handleLogout();
+              router.push("/login");
+            }}
             className="bg-slate-100 text-black w-80 p-2 font-bold"
           >
             Logout
@@ -100,9 +103,20 @@ function Home(props) {
 export default Home;
 
 export const getServerSideProps = async ({ req, res }) => {
+  const sendRedirectLocation = (location) => {
+    res.writeHead(302, {
+      Location: location,
+    });
+    res.end();
+    return { props: {} }; // stop execution
+  };
   let date = new Date().toDateString().split(" ").join("_");
   let token = getCookie("token", { req, res });
-  // console.log(token)
+  const name = getCookie("name", { req, res });
+  console.log(token);
+  if (token == null) {
+    sendRedirectLocation("/signup");
+  }
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -114,6 +128,6 @@ export const getServerSideProps = async ({ req, res }) => {
   );
   // console.log("data" ,data)
   return {
-    props: { tasks: data },
+    props: { tasks: data, name: name },
   };
 };
